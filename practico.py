@@ -182,7 +182,22 @@ plt.show()
 #       Repetir para la variable hf_score. 
 #       ¿Visualmente, a qué tipo de distribución corresponde cada variable? 
 #       ¿Es correcto utilizar todos el conjunto de valores disponibles para esa region en estos gráficos?
+latam  = parsed_dataset[parsed_dataset.region == 'Latin America & the Caribbean']
+world  = parsed_dataset[parsed_dataset.region != 'Latin America & the Caribbean']
+plt.figure()
+plt.title("pf_identity in latam and world")
+seaborn.distplot(latam.pf_identity.dropna())
+seaborn.distplot(world.pf_identity.dropna())
 
+plt.figure()
+plt.title("hf_score in latam and world")
+seaborn.distplot(latam.hf_score.dropna())
+seaborn.distplot(world.hf_score.dropna())
+
+plt.show()
+
+# Ni idea que distribucion tienen
+# Habir que sacar los valores atipicos o los que son NaN ?
 
 ############################
 # Correlaciones y Relaciones
