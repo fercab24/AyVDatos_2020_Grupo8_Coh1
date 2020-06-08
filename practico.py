@@ -56,6 +56,7 @@ print (parsed_dataset.dtypes)
 print ("Ahora el shape es")
 print (parsed_dataset.shape)
 
+aaaa
 ############################
 # Estadisticos Descriptivos 
 ############################
@@ -111,18 +112,18 @@ mean_hf_score_world          = selected_region.hf_score.mean()
 median_hf_score_world        = selected_region.hf_score.median()
 std_dev_hf_score_world       = selected_region.hf_score.std()
 
-print ('mean_pf_indentity_latam    = ' + str(mean_pf_indentity_latam    ) )
-print ('median_pf_indentity_latam  = ' + str(median_pf_indentity_latam  ) )
-print ('std_dev_pf_indentity_latam = ' + str(std_dev_pf_indentity_latam ) )
-print ('mean_hf_score_latam        = ' + str(mean_hf_score_latam        ) )
-print ('median_hf_score_latam      = ' + str(median_hf_score_latam      ) )
-print ('std_dev_hf_score_latam     = ' + str(std_dev_hf_score_latam     ) )
-print ('mean_pf_indentity_world    = ' + str(mean_pf_indentity_world    ) )
-print ('median_pf_indentity_world  = ' + str(median_pf_indentity_world  ) )
-print ('std_dev_pf_indentity_world = ' + str(std_dev_pf_indentity_world ) )
-print ('mean_hf_score_world        = ' + str(mean_hf_score_world        ) )
-print ('median_hf_score_world      = ' + str(median_hf_score_world      ) )
-print ('std_dev_hf_score_world     = ' + str(std_dev_hf_score_world     ) )
+print ('mean_pf_indentity_latam    = ' + str(round(mean_pf_indentity_latam    , 2)) )
+print ('median_pf_indentity_latam  = ' + str(round(median_pf_indentity_latam  , 2)) )
+print ('std_dev_pf_indentity_latam = ' + str(round(std_dev_pf_indentity_latam , 2)) )
+print ('mean_hf_score_latam        = ' + str(round(mean_hf_score_latam        , 2)) )
+print ('median_hf_score_latam      = ' + str(round(median_hf_score_latam      , 2)) )
+print ('std_dev_hf_score_latam     = ' + str(round(std_dev_hf_score_latam     , 2)) )
+print ('mean_pf_indentity_world    = ' + str(round(mean_pf_indentity_world    , 2)) )
+print ('median_pf_indentity_world  = ' + str(round(median_pf_indentity_world  , 2)) )
+print ('std_dev_pf_indentity_world = ' + str(round(std_dev_pf_indentity_world , 2)) )
+print ('mean_hf_score_world        = ' + str(round(mean_hf_score_world        , 2)) )
+print ('median_hf_score_world      = ' + str(round(median_hf_score_world      , 2)) )
+print ('std_dev_hf_score_world     = ' + str(round(std_dev_hf_score_world     , 2)) )
 
 # 4)    ¿Tiene sentido calcular la moda?
 #       No tiene sentido calcular la moda, ya que se trata del valor mas repitido, el analisis de rango de las variables, revelo que tenemos numeros enteros
@@ -144,10 +145,20 @@ selected_region            = parsed_dataset[parsed_dataset.region != 'Latin Amer
 outliers_pf_identity_world = selected_region[abs(selected_region.pf_identity - mean_pf_indentity_latam) >= (2 * std_dev_pf_indentity_latam)]
 outliers_hf_score_world    = selected_region[abs(selected_region.hf_score - mean_hf_score_latam) >= (2 * std_dev_hf_score_latam)]
 
+print ( 'outliers_pf_identity_latam' )
+print ( outliers_pf_identity_latam   )
+print ( 'outliers_hf_score_latam'    )
+print ( outliers_hf_score_latam      )
+print ( 'outliers_pf_identity_world' )
+print ( outliers_pf_identity_world   )
+print ( 'outliers_hf_score_world'    )
+print ( outliers_hf_score_world      )
+
 ############################
 # Agregación de datos
 ############################
 # 1)    Grafiquen la media de la variable pf_identity y hf_score a través de los años.
+
 plt.figure()
 plt.title("Mean world value pf_indentity across the years")
 seaborn.barplot(data=parsed_dataset, x='year', y='pf_identity')
@@ -155,6 +166,28 @@ plt.figure()
 plt.title("Mean world value hf_score across the years")
 seaborn.barplot(data=parsed_dataset, x='year', y='hf_score')
 plt.show()
+
+# Primero calculamos las medias por anio de las variables
+# years_array            = dataset.year.unique()[::-1]
+# pf_identity_mean_array = []
+# hf_score_mean_array    = []
+# ef_score_mean_array    = []
+# for year in years_array:
+#     small_dataset = dataset[dataset.year == year]
+#     pf_identity_mean_array.append(round(small_dataset.pf_identity.mean(),2))
+#     hf_score_mean_array   .append(round(small_dataset.hf_score   .mean(),2))
+#     ef_score_mean_array   .append(round(small_dataset.ef_score   .mean(),2))
+
+# # Ahora creamos los dataframes para poder hacer los graficos despues
+# data = {'year': years_array, 'mean': pf_identity_mean_array}
+# pf_identity_dataframe = pandas.DataFrame(data=data)
+# data = {'year': years_array, 'mean': hf_score_mean_array}
+# ef_score_dataframe = pandas.DataFrame(data=data)
+# data = {'year': years_array, 'mean': ef_score_mean_array}
+# ef_score_dataframe = pandas.DataFrame(data=data)
+
+# # Finalmente el grafico
+# seaborn.barplot(data = pf_identity_dataframe, x = 'year', y = 'mean')
 
 # 2)    Realicen los mismos gráficos, pero separando por regiones (Cada variable en un gráfico distinto, sino no se ve nada). 
 #       ¿La tendencia observada, es la misma que si no dividimos por regiones?
@@ -194,7 +227,7 @@ plt.title("hf_score in latam and world")
 seaborn.distplot(latam.hf_score.dropna())
 seaborn.distplot(world.hf_score.dropna())
 
-plt.show()
+# plt.show()
 
 # Ni idea que distribucion tienen
 # Habir que sacar los valores atipicos o los que son NaN ?
@@ -209,18 +242,58 @@ plt.show()
 #       Como pf_indentity contribuye al cálculo de pf_score esperamos hallar algún grado de correlación. Lo contrario podría ocurrir con ef_score.
 
 # 1)    ¿Qué conclusiones puede sacar de un gráfico pairplot de estas tres variables? ¿Es adecuado para los valores de pf_identity? ¿Por qué?
+seaborn.pairplot(data=latam, vars=['pf_identity','pf_score','ef_score'], hue='year')
+# plt.show()
 
 # 2)    Graficar la correlación (visual) entre pf_identity y pf_score; y entre pf_identity y ef_score. Analizar el resultado, 
 #       ¿se pueden sacar conclusiones? Tengan en cuenta que como pf_identity es el resultado de un promedio, sólo toma algunos valores. 
 #       Es, en la práctica, discreta, y eso afecta al tipo de gráfico que podemos usar.
+seaborn.regplot(data=latam, x='pf_identity', y='pf_score')
+plt.ylabel('pf_score')
+plt.xlabel('pf_identity')
+plt.title ('Graphic correlation between pf_identity and pf_score')
+# plt.show()
+
+seaborn.regplot(data=latam, x='pf_identity', y='ef_score')
+plt.ylabel('ef_score')
+plt.xlabel('pf_identity')
+plt.title ('Graphic correlation between pf_identity and ef_score')
 
 # 3)    Convertir estas variables en categóricas, es decir, a partir de pf_indentity generar otra variable pf_identity_segment que tome los valores high, medium y low. 
 #       Pueden hacerlo con una función escrita por ustedes, o usando alguna función de pandas como pandas.cut o pandas.dcut. Repetir para ef_score y pf_score. 
 #       El criterio para decidir qué intervalos de valores corresponden a cada categoría tienen que decidirlo ustedes, pueden usar los estadísticos mediana y los cuartiles.
+ranges          = [0,0,0,0]
+labels          = ['low', 'medium', 'high']
+
+# For pf_identity
+ranges[0]       = parsed_dataset.pf_identity.min     () - 0.1
+ranges[1]       = parsed_dataset.pf_identity.quantile(0.25)  
+ranges[2]       = parsed_dataset.pf_identity.quantile(0.50)   # This is because the quantile 0.75 and max are the same
+ranges[3]       = parsed_dataset.pf_identity.max     () + 0.1
+pf_identity_segment = pandas.cut(parsed_dataset.pf_identity, ranges, right=False, labels=labels)
+
+# For ef_score
+ranges[0]       = parsed_dataset.ef_score.min     () - 0.1
+ranges[1]       = parsed_dataset.ef_score.quantile(0.25)
+ranges[2]       = parsed_dataset.ef_score.quantile(0.75)
+ranges[3]       = parsed_dataset.ef_score.max     () + 0.1
+ef_score_segment = pandas.cut(parsed_dataset.ef_score, ranges, right=False, labels=labels)
+
+# For pf_score
+ranges[0]       = parsed_dataset.pf_score.min     () - 0.1
+ranges[1]       = parsed_dataset.pf_score.quantile(0.25)
+ranges[2]       = parsed_dataset.pf_score.quantile(0.75)
+ranges[3]       = parsed_dataset.pf_score.max     () + 0.1
+pf_score_segment = pandas.cut(parsed_dataset.pf_score, ranges, right=False, labels=labels)
 
 # 4)    Graficar la correlación (visual) entre estas tres variables categoricas usando gráficos de calor (heatmaps).
 #       Note: van a necesitar 3 gráficos distintos, porque en cada uno podemos incluir sólo 2 variables.
-
+cross = pandas.crosstab(pf_identity_segment, ef_score_segment)
+seaborn.heatmap(cross)
+cross = pandas.crosstab(pf_identity_segment, pf_score_segment)
+seaborn.heatmap(cross)
+cross = pandas.crosstab(pf_score_segment, ef_score_segment)
+seaborn.heatmap(cross)
 
 
 
